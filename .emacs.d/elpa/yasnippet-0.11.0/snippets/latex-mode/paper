@@ -1,0 +1,27 @@
+# Author: William R. Arellano
+# name: Paper Two Colum
+# key: paper
+# --
+\documentclass[twocolumn]{article}
+
+%---------------------------------
+%	Packages
+%---------------------------------
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+
+%---------------------------------
+%	Authors and Title
+%---------------------------------
+\author{${1:William R. Arellano}}
+\title{$2}
+
+%---------------------------------
+%	Document
+%---------------------------------
+
+\begin{document}
+\maketitle
+$0
+\end{document}
