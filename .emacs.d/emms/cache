@@ -1,0 +1,2 @@
+;;; .emms-cache -*- mode: emacs-lisp; coding: utf-8; -*-
+(puthash "/home/cptrodolfox/Music/Adele Hello 320Kbps.mp3" '(*track* (type . file) (name . "/home/cptrodolfox/Music/Adele Hello 320Kbps.mp3") (metadata) (info-mtime 22762 58841 163824 739000)) emms-cache-db)

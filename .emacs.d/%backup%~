@@ -1,0 +1,19 @@
+from django.db import models
+from django.core.validators import RegexValidator
+
+class User(models.Model):
+    username = models.CharField(max_length=255, blank=False, unique=True)
+    user_name = models.CharField(max_length=255, blank=False, unique=False)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    institution = models.CharField(max_length=255, blank=True, unique=False)
+    contact_phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format : +999 99 999 9999")
+    contact_phone = models.CharField(validators=[contact_phone_regex], blank=True)
+    number_working_projects = models.IntegerField()
+    number_finished_projects = models.IntegerField()
+
+
+class SocialIssue(models.Model):
+    title = models.CharField(max_length=255, blank=False)
+    user_name = models.CharField(max_length=255, blank=False)
+    
