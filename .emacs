@@ -16,11 +16,14 @@
  '(ansi-color-names-vector
    ["#2e3436" "#a40000" "#4e9a06" "#c4a000" "#204a87" "#5c3566" "#729fcf" "#eeeeec"])
  '(custom-enabled-themes (quote (tango-dark)))
+ '(inhibit-startup-screen t)
  '(package-archives
    (quote
     (("gnu" . "http://elpa.gnu.org/packages/")
      ("melpa-stable" . "http://stable.melpa.org/packages/"))))
- '(package-selected-packages (quote (org elpy emms flycheck yasnippet haskell-mode ##))))
+ '(package-selected-packages
+   (quote
+    (company-irony irony nlinum neotree org elpy emms flycheck yasnippet haskell-mode ##))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -80,3 +83,49 @@
 ;;For RefTex
 (require 'reftex)
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)   ; with AUCTeX LaTeX mode
+
+
+;; NeoTree
+(require 'neotree)
+(define-key global-map (kbd "<C-tab>") 'neotree)
+
+;; Nlinum
+(require 'nlinum)
+
+;; == irony-mode ==
+(use-package irony
+  :ensure t
+  :defer t
+  :init
+  (add-hook 'c++-mode-hook 'irony-mode)
+  (add-hook 'c-mode-hook 'irony-mode)
+  (add-hook 'objc-mode-hook 'irony-mode)
+  :config
+  ;; replace the `completion-at-point' and `complete-symbol' bindings in
+  ;; irony-mode's buffers by irony-mode's function
+  (defun my-irony-mode-hook ()
+    (define-key irony-mode-map [remap completion-at-point]
+      'irony-completion-at-point-async)
+    (define-key irony-mode-map [remap complete-symbol]
+      'irony-completion-at-point-async))
+  (add-hook 'irony-mode-hook 'my-irony-mode-hook)
+  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+  )
+
+;; == company-mode ==
+(use-package company
+  :ensure t
+  :defer t
+  :init (add-hook 'after-init-hook 'global-company-mode)
+  :config
+  (use-package company-irony :ensure t :defer t)
+  (setq company-idle-delay              nil
+	company-minimum-prefix-length   2
+	company-show-numbers            t
+	company-tooltip-limit           10
+	company-dabbrev-downcase        nil
+	company-backends                '((company-irony company-gtags))
+	)
+  :bind ("C-;" . company-complete-common)
+  )
+(global-set-key (kbd "C-|") 'company-complete)
